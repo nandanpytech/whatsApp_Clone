@@ -6,6 +6,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode'
 import { useContext } from 'react';
 import {AccountContext} from '../context/AccountProvider'
+import { addUser } from '../service/Api';
 
 
 export default function Login() {
@@ -17,6 +18,7 @@ export default function Login() {
         maxHeight:"100%",
         overflow:"hidden"
     }
+    const {setaccount}=useContext(AccountContext)
 
 const StyledList=styled(List)`
         & > li{
@@ -27,10 +29,12 @@ const StyledList=styled(List)`
           color:#4a4a4a
         }       
 `    
-const {setaccount}=useContext(AccountContext)
-const onLoginsuccess=(res)=>{
+
+
+const onLoginsuccess=async(res)=>{
   const decode=jwt_decode(res.credential)
   setaccount(decode)
+  await addUser(decode)
 }
 const onLoginerror=(err)=>{
   console.log(err)
