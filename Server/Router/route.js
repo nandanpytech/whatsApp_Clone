@@ -2,6 +2,7 @@ const express=require('express')
 const app=express()
 const router=express.Router();
 const User=require("../Model/User.js")
+const Conversation=require("../Model/Conversation.js")
 
 
 router.post("/add",async(req,res)=>{
@@ -27,6 +28,26 @@ router.get("/users",async(req,res)=>{
     } catch (error) {
         res.json(error)
     }
+})
+
+router.post("/setConversation",async(req,res)=>{
+   
+    try {
+        const {senderId,reciverId}=req.body.data;
+        const exist=await Conversation.findOne({members:{$all:[reciverId,senderId]}});
+        if(exist){
+            return res.status(200).json("Conversation already exists")
+        }
+        const newConversation=new Conversation({
+            members:[senderId,reciverId]
+        })
+        await newConversation.save()
+        return res.status(200).json("Conversation saved successfully")
+
+    } catch (error) {
+        return res.json(err)
+    }
+    
 })
 
 

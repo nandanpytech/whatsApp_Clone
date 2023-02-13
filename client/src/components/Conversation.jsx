@@ -8,22 +8,23 @@ import {AccountContext} from '../context/AccountProvider'
 import { Divider } from "@mui/material"
 
 
-export default function Conversation() {
+export default function Conversation({text}) {
     const {account}=useContext(AccountContext)
     const [users, setusers] = useState([])
     useEffect(() => {
       const fetchdata=async()=>{
         let response=await getUser()
-        setusers(response)
+        let filterdata=response.filter((user)=>user.name.toLowerCase().includes(text.toLowerCase()))
+        setusers(filterdata)
       }
 
       fetchdata()
-    }, [])
+    }, [text])
     
   return (
     <Box style={{overFlow:"overlay",height:"81vh"}}>
         {users.map((user)=>{
-            if(user.sub!=account.sub){
+            if(user.sub!==account.sub){
                
               return <>
                 <UserConversation user={user}></UserConversation>
