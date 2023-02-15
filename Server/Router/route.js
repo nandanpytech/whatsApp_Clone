@@ -3,6 +3,7 @@ const app=express()
 const router=express.Router();
 const User=require("../Model/User.js")
 const Conversation=require("../Model/Conversation.js")
+const Message=require("../Model/message.js")
 
 
 router.post("/add",async(req,res)=>{
@@ -29,6 +30,17 @@ router.get("/users",async(req,res)=>{
         res.json(error)
     }
 })
+router.post("/getConversation",async(req,res)=>{
+    const {senderId,reciverId}=req.body.data;
+    try {
+           let conversation= await Conversation.findOne({members:{$all:[senderId,reciverId]}})
+           return res.status(200).json(conversation)
+            
+        } catch (error) {
+           res.json(error)
+        }
+}
+)
 
 router.post("/setConversation",async(req,res)=>{
    
@@ -50,6 +62,27 @@ router.post("/setConversation",async(req,res)=>{
     
 })
 
+router.post("/newmessage",async(req,res)=>{
+    try {
+        const newmessage=new Message(req.body.data)
+        await newmessage.save();
+        await Conversation.findByIdAndUpdate(req.body.data.Conversation,{message:req.body.data.text})
+        return res.status(200).json("Message sent successfully")
+
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+})
+
+router.get("/getmessages/:id",async(req,res)=>{
+    try {
+      const messages=await Message.find({Conversation:req.params.id})
+      return res.status(200).json(messages)
+
+    } catch (error) {
+      return res.status(500).json(error)
+    }
+})
 
 
 

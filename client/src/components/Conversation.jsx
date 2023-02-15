@@ -14,7 +14,7 @@ export default function Conversation({text}) {
     useEffect(() => {
       const fetchdata=async()=>{
         let response=await getUser()
-        let filterdata=response.filter((user)=>user.name.toLowerCase().includes(text.toLowerCase()))
+        let filterdata=text?response.filter((user)=>user.name.toLowerCase().includes(text.toLowerCase())):response
         setusers(filterdata)
       }
 
@@ -27,8 +27,8 @@ export default function Conversation({text}) {
             if(user.sub!==account.sub){
                
               return <>
-                <UserConversation user={user}></UserConversation>
-                <Divider style={{margin:"0 0 0 70px"}}></Divider>
+                <UserConversation key={user.id} user={user}></UserConversation>
+                <Divider  key={user.id} style={{margin:"0 0 0 70px"}}></Divider>
                 </>
             }
         })}
