@@ -15,6 +15,7 @@ export default function Messages({person,Conversation}) {
   const {account}=useContext(AccountContext)
   const [messages, setmessages] = useState()
   const [value, setvalue] = useState()
+  const [newmessageblank, setnewmessageblank] = useState(false)
   const setText=async(e)=>{
     const code=e.keyCode || e.which
     if(code===13){
@@ -28,6 +29,7 @@ export default function Messages({person,Conversation}) {
       }
      await newmessage(message)
      setvalue("")
+     setnewmessageblank(true)
     }
   }
 
@@ -35,10 +37,11 @@ export default function Messages({person,Conversation}) {
     const getmessagedetils=async()=>{ 
       const data=await getmessages(Conversation._id)
       setmessages(data)
+      setnewmessageblank(false)
 
     }
     getmessagedetils()
-  }, [person._id,Conversation._id])
+  }, [person._id,Conversation._id,newmessageblank])
 
   const Wrapper=styled(Box)`
   background-image:url(${image})
@@ -50,10 +53,18 @@ export default function Messages({person,Conversation}) {
     <>
  
     <Wrapper>
-      <Component>
+      <Component style={{overflowY:"scroll"}}>
       {
         messages && messages.map((message)=>{
-         return <Allmessages message={message}></Allmessages>
+         return (
+          <>
+          <Box style={{padding:"5px 80px"}}>
+             <Allmessages message={message}></Allmessages>
+          </Box>
+          </>
+         )
+         
+       
         })
       }
       </Component>

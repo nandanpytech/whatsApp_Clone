@@ -4,7 +4,7 @@ const userschema=new mongoose.Schema({
         type:String,
     },
     senderId:{
-        type:Number,
+        type:String,
     },
     reciverId:{
         type:String,
