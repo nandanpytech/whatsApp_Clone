@@ -8,8 +8,9 @@ import {AccountContext} from '../context/AccountProvider'
 import { Divider } from "@mui/material"
 
 
+
 export default function Conversation({text}) {
-    const {account}=useContext(AccountContext)
+    const {account, socket, setactiveusers}=useContext(AccountContext)
     const [users, setusers] = useState([])
     useEffect(() => {
       const fetchdata=async()=>{
@@ -21,6 +22,16 @@ export default function Conversation({text}) {
       fetchdata()
     }, [text])
     
+
+    useEffect(()=>{
+      socket.current.emit('addUsers',account);
+      socket.current.on("getUsers",users=>{
+        console.log(users)
+        setactiveusers(users)
+      })
+    },[account])
+
+   
   return (
     <Box style={{overFlow:"overlay",height:"81vh"}}>
         {users.map((user)=>{

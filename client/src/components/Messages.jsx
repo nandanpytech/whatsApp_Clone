@@ -12,10 +12,22 @@ import Allmessages from './Allmessages';
 
 
 export default function Messages({person,Conversation}) {
-  const {account}=useContext(AccountContext)
+  const {account,socket,newmessageblank,setnewmessageblank}=useContext(AccountContext)
+  const [incomingMessage, setincomingMessage] = useState(null)
+  
+  useEffect(()=>{
+    socket.current.on("getMessage",data=>{
+      setincomingMessage({
+        ...data,
+        createdAt:Date.now()
+      })
+    })
+  })
   const [messages, setmessages] = useState()
+  const [file, setfile] = useState()
   const [value, setvalue] = useState()
-  const [newmessageblank, setnewmessageblank] = useState(false)
+
+
   const setText=async(e)=>{
     const code=e.keyCode || e.which
     if(code===13){
@@ -27,17 +39,23 @@ export default function Messages({person,Conversation}) {
         text:value
 
       }
+
+      socket.current.emit("sentMessage",message)
      await newmessage(message)
      setvalue("")
-     setnewmessageblank(true)
+     setnewmessageblank(prev => !prev)
     }
   }
 
+  useEffect(()=>{
+    incomingMessage && Conversation?.members?.includes
+    (incomingMessage.senderId) && setmessages((prev)=>[...prev,incomingMessage])
+  },[incomingMessage,Conversation])
   useEffect(() => {
     const getmessagedetils=async()=>{ 
       const data=await getmessages(Conversation._id)
       setmessages(data)
-      setnewmessageblank(false)
+      // setnewmessageblank(false)
 
     }
     getmessagedetils()
@@ -53,13 +71,13 @@ export default function Messages({person,Conversation}) {
     <>
  
     <Wrapper>
-      <Component style={{overflowY:"scroll"}}>
+      <Component    style={{overflowY:"scroll"}}>
       {
         messages && messages.map((message)=>{
          return (
           <>
-          <Box style={{padding:"5px 80px"}}>
-             <Allmessages message={message}></Allmessages>
+          <Box   style={{padding:"5px 80px"}}>
+             <Allmessages  message={message}></Allmessages>
           </Box>
           </>
          )
@@ -68,7 +86,7 @@ export default function Messages({person,Conversation}) {
         })
       }
       </Component>
-    <Footer value={value} setvalue={setvalue}   setText={setText}></Footer>
+    <Footer value={value} file={file} setfile={setfile} setvalue={setvalue}   setText={setText}></Footer>
     </Wrapper>
     </>
   )

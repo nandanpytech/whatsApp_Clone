@@ -80,3 +80,14 @@ export const getmessages=async(id)=>{
     
      
 }
+export const Uploadfile=async(data)=>{
+    const res=await fetch(`/fileupload/`, {
+        method:"POST",
+        headers:{
+          "Content-Type" : "application/json",
+        },
+        
+        body:data
+      })
+
+}

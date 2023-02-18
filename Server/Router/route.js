@@ -4,6 +4,7 @@ const router=express.Router();
 const User=require("../Model/User.js")
 const Conversation=require("../Model/Conversation.js")
 const Message=require("../Model/message.js")
+const upload= require("../utils/upload")
 
 
 router.post("/add",async(req,res)=>{
@@ -81,6 +82,13 @@ router.get("/getmessages/:id",async(req,res)=>{
 
     } catch (error) {
       return res.status(500).json(error)
+    }
+})
+router.post("/fileupload", upload.single("file"),async(req,res)=>{
+    if(!req.data){
+        console.log("h")
+    }else{
+        console.log("hello")
     }
 })
 

@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import { Box } from "@mui/system"
 import { Typography } from '@mui/material'
 import { useContext } from 'react';
 import {AccountContext} from '../context/AccountProvider'
-import { setConversation } from '../service/Api';
+import {getConversation,  setConversation } from '../service/Api';
+import timestamp from '../timestamp/timestamp'
+
 
 
 export default function UserConversation({user}) {
-  const {setperson,account}=useContext(AccountContext)
+  const {setperson,account,newmessageblank}=useContext(AccountContext)
+  const [message, setmessage] = useState({})
+
+ useEffect(()=>{
+  const getConversationdetails=async()=>{
+    const data = await getConversation({
+      senderId:account.sub,
+      reciverId:user.sub,
+    })
+    setmessage({ text:data?.message, timestamp:data?.updatedAt})
+  }
+  getConversationdetails()
+ },[newmessageblank])
+
   const getuser=async(user)=>{
     setperson(user)
     await setConversation({senderId:account.sub, reciverId:user.sub})
@@ -22,6 +37,13 @@ export default function UserConversation({user}) {
                 <Typography>
                     {user.name}
                 </Typography>
+                {
+                  message?.message && 
+                  <Typography>{timestamp(message?.timestamp)}</Typography>
+                }
+            </Box>
+            <Box>
+             
             </Box>
         </Box>
     </Box>
