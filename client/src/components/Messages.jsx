@@ -62,10 +62,10 @@ export default function Messages({person,Conversation}) {
   }, [person._id,Conversation._id,newmessageblank])
 
   const Wrapper=styled(Box)`
-  background-image:url(${image})
+  background-image:url(${image});
   `
   const Component=styled(Box)`
-  height:77vh
+  height:77vh;
   `
   return (
     <>
