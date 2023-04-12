@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.d4db5148.css","mappings":"AAAA,oBAEI,oBAAsB,CADtB,mBAEJ","sources":["index.css"],"sourcesContent":["::-webkit-scrollbar{\r\n    width: 6px !important;\r\n    height: 6px !important;\r\n}"],"names":[],"sourceRoot":""}
