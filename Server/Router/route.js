@@ -57,7 +57,7 @@ router.post("/setConversation",async(req,res)=>{
         return res.status(200).json("Conversation saved successfully")
 
     } catch (error) {
-        return res.json(err)
+        return res.json(error)
     }
     
 })
