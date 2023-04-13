@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/static/css/main.d4db5148.css",
-    "main.js": "/static/js/main.1f9bd320.js",
+    "main.js": "/static/js/main.509e9237.js",
     "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
     "static/media/Whatsapp.png": "/static/media/Whatsapp.bded4f44087fb4e89252.png",
     "index.html": "/index.html",
     "main.d4db5148.css.map": "/static/css/main.d4db5148.css.map",
-    "main.1f9bd320.js.map": "/static/js/main.1f9bd320.js.map",
+    "main.509e9237.js.map": "/static/js/main.509e9237.js.map",
     "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d4db5148.css",
-    "static/js/main.1f9bd320.js"
+    "static/js/main.509e9237.js"
   ]
 }
