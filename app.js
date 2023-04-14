@@ -20,8 +20,8 @@ require('./db/conn')
 app.use(require('./Router/route'))
 
 // deployment 
-const _dirname1=path.resolve("../")
-console.log(_dirname1);
+const _dirname1=path.resolve()
+// console.log(_dirname1);
 if(process.env.NODE_ENV==="production"){
     app.use(express.static(path.resolve(_dirname1,"client","build")))
     app.get("*",(req,res)=>{
